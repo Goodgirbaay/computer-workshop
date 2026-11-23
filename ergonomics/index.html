@@ -1,0 +1,1875 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ارگونومی کار با رایانه</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* =====================================================================
+   Shared Design System — identical in both presentations
+   (tokens · base · layout · shared components · presentation shell)
+   ===================================================================== */
+:root {
+	--bg: #10141b;
+	--bg-deep: #0a0e14;
+	--bg-card: #191f28;
+	--bg-card-2: #1e2833;
+	--bg-glass: rgba(20, 25, 33, 0.84);
+	--ink: #edf0eb;
+	--ink-soft: #d8ddd9;
+	--muted: #94a0ad;
+	--gold: #e3a857;
+	--gold-soft: #efc77f;
+	--teal: #5fb8b3;
+	--teal-soft: #82cbc6;
+	--coral: #e0685a;
+	--blue: #72a6dc;
+	--rule: #2b3440;
+	--rule-soft: rgba(255, 255, 255, 0.06);
+	--shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.16);
+	--shadow-md: 0 20px 55px rgba(0, 0, 0, 0.23);
+	--shadow-lg: 0 30px 90px rgba(0, 0, 0, 0.34);
+	--radius-sm: 9px;
+	--radius-md: 13px;
+	--radius-lg: 18px;
+	--ease: cubic-bezier(0.22, 1, 0.36, 1);
+	/* spacing scale */
+	--sp-1: 8px;
+	--sp-2: 12px;
+	--sp-3: 16px;
+	--sp-4: 24px;
+	/* two-column slide proportions */
+	--col-text: 1.04fr;
+	--col-media: 0.96fr;
+	--font-fa: "Vazirmatn", Tahoma, sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+	background:
+		radial-gradient(circle at 8% 0%, rgba(95, 184, 179, 0.065), transparent 23%),
+		radial-gradient(circle at 92% 2%, rgba(227, 168, 87, 0.055), transparent 20%),
+		linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+	color: var(--ink);
+	font-family: var(--font-fa);
+	font-size: 18px;
+	line-height: 1.85;
+	padding: 26px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+	overflow-x: hidden;
+}
+button, input { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible, a:focus-visible, [tabindex]:focus-visible {
+	outline: 2px solid var(--gold);
+	outline-offset: 3px;
+}
+::selection { background: rgba(95, 184, 179, 0.25); color: #fff; }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 20px; border: 1px solid; }
+::-webkit-scrollbar-track { background: hsl(219, 27%, 20%); }
+
+.top-bar, .container { max-width: 1060px; width: 100%; }
+.top-bar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 24px;
+	padding: 16px 18px;
+	margin-bottom: 26px;
+	border: 1px solid var(--rule);
+	border-radius: var(--radius-md);
+	background: var(--bg-glass);
+	backdrop-filter: blur(14px);
+	box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Typography ---------- */
+h1.main-title {
+	font-size: clamp(26px, 3vw, 34px);
+	font-weight: 800;
+	color: var(--ink);
+	letter-spacing: -0.4px;
+}
+h2 {
+	font-size: clamp(25px, 2.4vw, 31px);
+	font-weight: 800;
+	color: var(--gold);
+	margin-bottom: 22px;
+	padding-bottom: 13px;
+	border-bottom: 1px solid var(--rule);
+	letter-spacing: -0.2px;
+}
+h3 { font-size: 18px; color: var(--gold); margin-bottom: 7px; }
+p { margin-bottom: 14px; color: var(--ink-soft); }
+strong { color: var(--gold); font-weight: 800; }
+code, .mono { font-family: var(--font-mono); }
+code {
+	background: var(--bg-card-2);
+	color: var(--teal);
+	border: 1px solid var(--rule);
+	border-radius: 5px;
+	padding: 1px 6px;
+	direction: ltr;
+	unicode-bidi: embed;
+	font-size: 0.88em;
+}
+
+/* ---------- Presentation button (icon only) ---------- */
+.btn-presentation {
+	background: linear-gradient(135deg, var(--teal), var(--teal-soft));
+	color: #0d1519;
+	border: 0;
+	padding: 11px 18px;
+	border-radius: 10px;
+	font-weight: 800;
+	font-size: 14px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	box-shadow: 0 9px 24px rgba(95, 184, 179, 0.16);
+	transition: transform 180ms var(--ease), box-shadow 180ms var(--ease), filter 180ms var(--ease);
+}
+.btn-presentation:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 14px 30px rgba(95, 184, 179, 0.23);
+	filter: brightness(1.04);
+}
+.btn-presentation-icon { width: 44px; height: 44px; padding: 0; flex: 0 0 auto; justify-content: center; }
+.btn-presentation-icon svg { width: 19px; height: 19px; display: block; }
+
+/* ---------- Slide card & two-column layout ---------- */
+.section-card {
+	position: relative;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 24%), var(--bg-card);
+	border: 1px solid var(--rule);
+	border-radius: var(--radius-lg);
+	padding: 32px 34px;
+	margin-bottom: 22px;
+	box-shadow: var(--shadow-sm);
+	overflow: hidden;
+	overflow-wrap: break-word;
+	transition: border-color 220ms var(--ease), box-shadow 220ms var(--ease), transform 220ms var(--ease);
+}
+.section-card::before {
+	content: "";
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 3px;
+	background: linear-gradient(180deg, var(--teal), transparent 72%);
+	opacity: 0.75;
+	pointer-events: none;
+}
+.section-card:hover { border-color: #35404c; box-shadow: var(--shadow-md); }
+.section-card.has-media {
+	display: grid;
+	grid-template-columns: minmax(0, var(--col-text)) minmax(0, var(--col-media));
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: var(--sp-4) 40px;
+	align-items: stretch;
+}
+.section-card.has-media > h2 { grid-column: 1 / -1; }
+.section-card.no-media { display: block; }
+.slide-text-col, .slide-media-col {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+/* ---------- Shared note ---------- */
+.main-note {
+	margin-top: 18px;
+	padding: 15px 18px;
+	border: 1px solid rgba(95, 184, 179, 0.18);
+	border-right: 4px solid var(--teal);
+	border-radius: var(--radius-md);
+	background: linear-gradient(135deg, rgba(95, 184, 179, 0.07), rgba(95, 184, 179, 0.018));
+	color: var(--ink-soft);
+}
+.main-note-title { color: var(--teal-soft); font-weight: 800; font-size: 14px; margin-bottom: 2px; }
+
+/* ---------- Presentation controls ---------- */
+.pres-controls {
+	display: none;
+	position: fixed;
+	bottom: 22px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(20, 24, 31, 0.9);
+	backdrop-filter: blur(14px);
+	border: 1px solid #313a45;
+	padding: 8px 12px;
+	border-radius: 999px;
+	gap: 9px;
+	align-items: center;
+	box-shadow: var(--shadow-lg);
+	z-index: 1000;
+	transition: opacity 300ms ease, transform 300ms var(--ease);
+}
+.pres-controls.fade-out { opacity: 0; transform: translate(-50%, 26px); pointer-events: none; }
+.pres-btn-icon {
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.04);
+	color: var(--ink);
+	border: 1px solid #35404b;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease), transform 180ms var(--ease);
+}
+.pres-btn-icon:hover { background: var(--teal); color: var(--bg-deep); border-color: var(--teal); transform: translateY(-1px); }
+.pres-counter {
+	min-width: 56px;
+	text-align: center;
+	color: var(--gold-soft);
+	font: 800 14px var(--font-mono);
+	direction: ltr;
+	unicode-bidi: isolate;
+}
+.pres-btn-close {
+	height: 38px;
+	padding: 0 15px;
+	border-radius: 999px;
+	background: rgba(220, 38, 38, 0.09);
+	color: #f28a80;
+	border: 1px solid rgba(220, 38, 38, 0.3);
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: 800;
+	transition: background 180ms var(--ease), color 180ms var(--ease), transform 180ms var(--ease);
+}
+.pres-btn-close:hover { background: #b92d24; color: #fff; transform: translateY(-1px); }
+
+/* ---------- Presentation mode shell ---------- */
+body.presentation-mode {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	position: fixed;
+	inset: 0;
+	background: var(--bg-deep);
+}
+body.presentation-mode .pres-controls { display: flex; }
+body.presentation-mode .top-bar { display: none; }
+body.presentation-mode .container {
+	max-width: none;
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	padding: 0;
+	margin: 0;
+	position: relative;
+	overflow: hidden;
+}
+body.presentation-mode .section-card {
+	position: absolute;
+	inset: 0;
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	max-width: none;
+	max-height: none;
+	margin: 0;
+	border: 0;
+	border-radius: 0;
+	background:
+		radial-gradient(circle at 86% 8%, rgba(95, 184, 179, 0.055), transparent 25%),
+		radial-gradient(circle at 8% 92%, rgba(227, 168, 87, 0.04), transparent 24%),
+		#0e1218;
+	box-shadow: none;
+	padding: 58px 84px 112px;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(36px) scale(0.985);
+	transition: opacity 320ms ease, transform 520ms var(--ease);
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior-y: contain;
+	scrollbar-width: thin;
+	scroll-padding-block: 20px 112px;
+}
+body.presentation-mode .section-card::before { display: none; }
+body.presentation-mode .section-card.pres-active { opacity: 1; pointer-events: auto; transform: none; z-index: 10; }
+body.presentation-mode .section-card.pres-prev { transform: translateY(-70px) scale(0.99); opacity: 0; }
+body.presentation-mode .section-card.pres-next { transform: translateY(70px) scale(0.99); opacity: 0; }
+body.presentation-mode .section-card.has-media {
+	grid-template-columns: minmax(0, var(--col-text)) minmax(0, var(--col-media));
+	grid-template-rows: auto minmax(0, 1fr);
+	gap: var(--sp-4) 48px;
+	align-content: center;
+}
+body.presentation-mode .section-card.no-media {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+body.presentation-mode .section-card.no-media > * { flex-shrink: 0; }
+body.presentation-mode .section-card > h2 {
+	font-size: clamp(29px, 3.7vh, 42px);
+	line-height: 1.35;
+	color: var(--teal-soft);
+	border-bottom: 2px solid rgba(95, 184, 179, 0.2);
+	padding-bottom: 15px;
+	margin-bottom: 0;
+}
+body.presentation-mode p {
+	font-size: clamp(17px, 2.15vh, 21px);
+	line-height: 1.72;
+	margin-bottom: 0;
+	color: #d5dad8;
+}
+body.presentation-mode .slide-media-col { min-height: 0; }
+body.presentation-mode .main-note {
+	margin-top: 4px;
+	font-size: clamp(15px, 1.9vh, 18px);
+	line-height: 1.7;
+}
+body.presentation-mode .main-note-title { font-size: 15px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 920px) {
+	body { padding: 16px; }
+	.section-card.has-media { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+	body.presentation-mode .section-card,
+	body.presentation-mode .section-card.has-media {
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: auto auto auto;
+		align-content: start;
+		gap: 18px;
+		padding: 30px 24px 112px;
+	}
+	body.presentation-mode .section-card > h2 { grid-column: 1; }
+	body.presentation-mode .slide-text-col,
+	body.presentation-mode .slide-media-col {
+		grid-column: 1;
+		width: 100%;
+		max-width: none;
+		max-height: none;
+	}
+	body.presentation-mode .slide-media-col > * + * { margin-top: 12px; }
+}
+@media (max-width: 700px) {
+	body { padding: 10px; font-size: 16px; }
+	.top-bar { gap: 12px; }
+	.section-card { padding: 24px 18px; border-radius: var(--radius-md); }
+	body.presentation-mode .section-card,
+	body.presentation-mode .section-card.has-media { padding: 24px 16px 108px; gap: 14px; }
+	body.presentation-mode .section-card > h2 {
+		font-size: clamp(25px, 6vw, 31px);
+		line-height: 1.4;
+		padding-bottom: 10px;
+	}
+	body.presentation-mode p { font-size: clamp(16px, 4.1vw, 18px); line-height: 1.68; }
+	body.presentation-mode .pres-controls {
+		bottom: max(10px, env(safe-area-inset-bottom));
+		max-width: calc(100vw - 16px);
+		gap: 6px;
+		padding: 5px 8px;
+	}
+	body.presentation-mode .pres-btn-icon { width: 38px; height: 38px; }
+	body.presentation-mode .pres-btn-close { height: 34px; padding-inline: 10px; }
+}
+@media (max-height: 650px) {
+	body.presentation-mode .section-card,
+	body.presentation-mode .section-card.has-media {
+		padding-top: 18px;
+		padding-bottom: 100px;
+		gap: 12px;
+	}
+	body.presentation-mode p { font-size: clamp(16px, 2.5vh, 18px); }
+}
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+/* =====================================================================
+   Ergonomy — file-specific components
+   ===================================================================== */
+
+/* ---------- Content blocks ---------- */
+.info-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--sp-2);
+	margin: 18px 0;
+}
+.info-card {
+	padding: 15px 16px;
+	border: 1px solid var(--rule);
+	border-radius: var(--radius-md);
+	background: var(--bg-card-2);
+	transition: transform 180ms var(--ease), border-color 180ms var(--ease), background 180ms var(--ease);
+}
+.info-card:hover { transform: translateY(-2px); border-color: #3b4754; background: #22303b; }
+.info-card p { margin: 0; font-size: 16px; line-height: 1.75; }
+
+.state-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 9px;
+	margin-bottom: 14px;
+}
+.state-item {
+	padding: 12px 14px;
+	background: var(--bg-card-2);
+	border: 1px solid var(--rule);
+	border-radius: var(--radius-sm);
+	font-size: 15px;
+	line-height: 1.75;
+	transition: transform 180ms var(--ease), border-color 180ms var(--ease);
+}
+.state-item:hover { transform: translateY(-2px); border-color: #3b4754; }
+.state-title { color: var(--coral); font-weight: 800; }
+.state-en {
+	display: block;
+	direction: ltr;
+	text-align: right;
+	unicode-bidi: isolate;
+	font-family: var(--font-mono);
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--muted);
+}
+
+.tip-strip {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--sp-2);
+	margin-top: var(--sp-3);
+	padding: 13px 15px;
+	border-radius: var(--radius-md);
+	background: rgba(227, 168, 87, 0.055);
+	border: 1px solid rgba(227, 168, 87, 0.16);
+}
+.tip-mark { flex: 0 0 auto; color: var(--gold); font: 700 14px var(--font-mono); }
+.tip-strip p { margin: 0; font-size: 16px; }
+
+/* ---------- Image carousel ---------- */
+.carousel-container {
+	position: relative;
+	width: 100%;
+	margin: 0;
+	border: 1px solid var(--rule);
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	background: radial-gradient(circle at center, rgba(95, 184, 179, 0.05), transparent 60%), var(--bg-card-2);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+	--carousel-chrome: 62px; /* height of the controls bar */
+}
+.carousel-container:focus-visible { outline-offset: -3px; }
+.carousel-container.single-slide { --carousel-chrome: 0px; }
+.carousel-container.single-slide .carousel-controls { display: none; }
+/* All slides share one grid cell, so the frame keeps the height of the tallest image (no jumping) */
+.carousel-slides { display: grid; min-height: 260px; }
+.carousel-slide {
+	grid-area: 1 / 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 14px;
+	opacity: 0;
+	visibility: hidden;
+	transform: scale(0.985) translateY(5px);
+	transition: opacity 320ms var(--ease), transform 420ms var(--ease), visibility 0s linear 320ms;
+}
+.carousel-slide.active {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+	transition-delay: 0s;
+}
+.carousel-slide img {
+	display: block;
+	max-width: 100%;
+	width: auto;
+	height: auto;
+	max-height: min(62vh, 640px);
+	object-fit: contain;
+	border-radius: 9px;
+	box-shadow: 0 18px 45px rgba(0, 0, 0, 0.19);
+}
+.carousel-controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 9px 12px;
+	background: rgba(8, 12, 17, 0.26);
+	border-top: 1px solid var(--rule-soft);
+}
+.carousel-btn {
+	width: 35px;
+	height: 35px;
+	border: 1px solid var(--rule);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.035);
+	color: var(--ink);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease), transform 180ms var(--ease);
+}
+.carousel-btn:hover { background: var(--teal); color: #0d1519; border-color: var(--teal); transform: translateY(-1px); }
+.carousel-dots { display: flex; gap: 7px; align-items: center; justify-content: center; }
+.dot {
+	width: 7px;
+	height: 7px;
+	border: 0;
+	padding: 0;
+	appearance: none;
+	border-radius: 50%;
+	background: #3a434f;
+	cursor: pointer;
+	transition: width 200ms var(--ease), background 200ms var(--ease), transform 200ms var(--ease);
+}
+.dot:hover { transform: scale(1.15); }
+.dot.active { width: 20px; border-radius: 4px; background: var(--teal); }
+.carousel-counter {
+	margin-inline-start: 6px;
+	min-width: 38px;
+	text-align: center;
+	direction: ltr;
+	unicode-bidi: isolate;
+	font: 700 12px var(--font-mono);
+	color: var(--muted);
+}
+
+/* ---------- Checklist ---------- */
+.checklist {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	margin: 18px 0;
+}
+.check-item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding: 13px 15px;
+	border: 1px solid var(--rule);
+	border-radius: var(--radius-sm);
+	background: var(--bg-card-2);
+	cursor: pointer;
+	transition: transform 180ms var(--ease), border-color 180ms var(--ease), background 180ms var(--ease);
+}
+.check-item:hover { transform: translateY(-1px); border-color: #3b4754; }
+.check-item input[type="checkbox"] { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.check-item input[type="checkbox"]:focus-visible + .custom-box { outline: 2px solid var(--gold); outline-offset: 3px; }
+.custom-box {
+	width: 20px;
+	height: 20px;
+	border: 2px solid #5b6674;
+	border-radius: 5px;
+	margin-left: 11px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	transition: background 180ms var(--ease), border-color 180ms var(--ease), transform 180ms var(--ease);
+}
+.custom-box::after { content: "✓"; color: var(--bg-deep); font-size: 12px; font-weight: 900; display: none; }
+.check-item input[type="checkbox"]:checked + .custom-box { background: var(--teal); border-color: var(--teal); transform: scale(1.04); }
+.check-item input[type="checkbox"]:checked + .custom-box::after { display: block; }
+
+/* ---------- References ---------- */
+.references {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--sp-2);
+	margin-top: 18px;
+}
+.reference-card {
+	padding: 15px 17px;
+	background: var(--bg-card-2);
+	border: 1px solid var(--rule);
+	border-radius: var(--radius-md);
+}
+.reference-card h3 { color: var(--teal); font-size: 17px; margin-bottom: 5px; }
+.reference-card p { margin: 0; font-size: 15px; color: var(--muted); line-height: 1.7; }
+.reference-card a { color: var(--teal-soft); text-decoration: none; overflow-wrap: anywhere; }
+.reference-card a:hover { text-decoration: underline; }
+
+/* ---------- Presentation refinements ---------- */
+body.presentation-mode {
+	--img-reserve: 350px; /* vertical space taken by padding, title, gaps and the controls bar */
+}
+body.presentation-mode .slide-text-col { max-width: 760px; }
+body.presentation-mode .carousel-container { margin: 0; }
+body.presentation-mode .carousel-container.single-slide { --carousel-chrome: 0px; }
+body.presentation-mode .carousel-slide img {
+	max-height: max(220px, calc(100dvh - var(--img-reserve) + 62px - var(--carousel-chrome)));
+}
+body.presentation-mode .info-card p { font-size: clamp(15px, 1.85vh, 17px); line-height: 1.65; }
+body.presentation-mode .state-item { font-size: clamp(14px, 1.7vh, 16px); line-height: 1.65; padding: 9px 11px; }
+body.presentation-mode .state-grid { margin-bottom: 10px; }
+body.presentation-mode .info-grid { margin-top: 8px; }
+body.presentation-mode .tip-strip p { font-size: clamp(15px, 1.85vh, 18px); line-height: 1.68; }
+body.presentation-mode .checklist { margin: 0; }
+body.presentation-mode .check-item { font-size: clamp(13px, 1.75vh, 16px); padding: 11px 14px; }
+body.presentation-mode .reference-card { padding: 11px 15px; }
+body.presentation-mode .reference-card h3 { font-size: clamp(15px, 1.9vh, 17px); }
+body.presentation-mode .reference-card p { font-size: clamp(13px, 1.6vh, 15px) !important; line-height: 1.6 !important; color: var(--muted); }
+body.presentation-mode .references { margin-top: 10px; gap: 10px; }
+body.presentation-mode .slide-text-col > .main-note + p { margin-top: 12px; }
+
+@media (max-width: 920px) {
+	.state-grid, .checklist, .references { grid-template-columns: 1fr; }
+	body.presentation-mode .slide-text-col { max-width: none; }
+	body.presentation-mode .carousel-slide img { max-height: min(46dvh, 460px); }
+}
+@media (max-width: 700px) {
+	.info-grid { grid-template-columns: 1fr; }
+	body.presentation-mode .info-card p,
+	body.presentation-mode .tip-strip p { font-size: clamp(15px, 3.8vw, 17px); }
+	body.presentation-mode .state-grid { grid-template-columns: 1fr; }
+	body.presentation-mode .carousel-slide { padding: 8px; }
+	body.presentation-mode .carousel-slide img { max-height: min(34dvh, 300px); }
+	body.presentation-mode .checklist { grid-template-columns: 1fr; }
+}
+@media (max-height: 650px) {
+	body.presentation-mode { --img-reserve: 290px; }
+}
+
+
+
+/* =====================================================================
+   Refined UI layer — responsive alignment, typography, media and access
+   Added as an override layer; original content and component structure
+   remain intact.
+   ===================================================================== */
+:root {
+  color-scheme: dark;
+  --bg: #10151d;
+  --bg-deep: #0b1017;
+  --bg-card: #19212b;
+  --bg-card-2: #202b37;
+  --bg-glass: rgba(19, 26, 35, 0.9);
+  --ink: #f1f4f1;
+  --ink-soft: #dce2df;
+  --muted: #a6b2bf;
+  --gold: #eab66a;
+  --gold-soft: #f2cf91;
+  --teal: #70c4bd;
+  --teal-soft: #9adbd5;
+  --coral: #ed796d;
+  --blue: #83b6e7;
+  --rule: #354252;
+  --rule-soft: rgba(255, 255, 255, 0.085);
+  --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.19);
+  --shadow-md: 0 20px 55px rgba(0, 0, 0, 0.27);
+  --shadow-lg: 0 28px 82px rgba(0, 0, 0, 0.42);
+  --radius-sm: 10px;
+  --radius-md: 15px;
+  --radius-lg: 22px;
+  --page-gutter: clamp(12px, 2.2vw, 28px);
+  --card-gutter: clamp(20px, 3.2vw, 36px);
+  --pres-inline: clamp(22px, 6vw, 88px);
+  --pres-top: clamp(30px, 5.2vh, 64px);
+  --pres-bottom: calc(clamp(96px, 11.5vh, 124px) + env(safe-area-inset-bottom, 0px));
+  --pres-gap-y: clamp(14px, 1.9vh, 24px);
+  --pres-gap-x: clamp(24px, 4vw, 56px);
+  --font-fa: "Vazirmatn", Tahoma, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+html {
+  min-height: 100%;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  min-height: 100svh;
+  padding: var(--page-gutter);
+  font-size: clamp(16px, 0.45vw + 14px, 18px);
+  line-height: 1.78;
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+button, input, a { touch-action: manipulation; }
+button { min-width: 0; }
+button:focus-visible, input:focus-visible, a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--gold-soft);
+  outline-offset: 3px;
+}
+
+.top-bar {
+  align-items: center;
+  flex-wrap: wrap;
+  padding: clamp(12px, 1.7vw, 18px) clamp(14px, 2vw, 22px);
+  margin-bottom: clamp(16px, 2.2vw, 26px);
+  border-color: rgba(154, 219, 213, 0.17);
+  background: var(--bg-glass);
+  box-shadow: var(--shadow-sm);
+}
+h1.main-title {
+  font-size: clamp(23px, 2.6vw, 34px);
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+h2 {
+  font-size: clamp(23px, 2.2vw, 31px);
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+h3 {
+  font-size: clamp(16px, 1.15vw, 19px);
+  line-height: 1.55;
+}
+p { line-height: 1.82; }
+strong { color: var(--gold-soft); }
+
+.section-card {
+  padding: var(--card-gutter);
+  border-color: rgba(166, 185, 201, 0.16);
+  box-shadow: var(--shadow-sm);
+  scroll-margin-block: 24px;
+}
+.section-card::before {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  background: linear-gradient(180deg, var(--teal), rgba(112, 196, 189, 0.05) 78%);
+}
+.section-card:hover { border-color: rgba(154, 219, 213, 0.28); }
+.section-card.has-media {
+  gap: clamp(16px, 2vw, 24px) clamp(22px, 3.5vw, 40px);
+}
+.slide-text-col, .slide-media-col { min-width: 0; }
+
+.main-note {
+  margin-top: 0;
+  padding: clamp(13px, 1.6vw, 17px) clamp(15px, 1.8vw, 20px);
+  border-inline-start: 4px solid var(--teal);
+  border-inline-end: 1px solid rgba(112, 196, 189, 0.18);
+  background: linear-gradient(135deg, rgba(112, 196, 189, 0.09), rgba(112, 196, 189, 0.025));
+}
+.main-note-title { color: var(--teal-soft); }
+.tip-strip {
+  align-items: flex-start;
+  margin-top: 0;
+  padding: clamp(12px, 1.5vw, 15px);
+  border-color: rgba(234, 182, 106, 0.22);
+  background: rgba(234, 182, 106, 0.07);
+}
+.tip-mark { white-space: nowrap; }
+
+.info-grid, .state-grid, .checklist, .references { min-width: 0; }
+.info-grid { gap: clamp(9px, 1.2vw, 14px); }
+.info-card, .state-item, .check-item, .reference-card {
+  min-width: 0;
+  border-color: rgba(166, 185, 201, 0.15);
+  background: linear-gradient(145deg, rgba(255,255,255,0.025), transparent 55%), var(--bg-card-2);
+}
+.info-card { padding: clamp(13px, 1.4vw, 17px); }
+.info-card p { line-height: 1.75; }
+.state-grid { gap: clamp(8px, 1vw, 12px); }
+.state-item { padding: clamp(10px, 1.1vw, 14px); }
+.state-en { text-align: start; overflow-wrap: anywhere; }
+.checklist { gap: clamp(8px, 1vw, 12px); }
+.check-item {
+  align-items: flex-start;
+  min-height: 48px;
+  padding: 12px 14px;
+  line-height: 1.7;
+}
+.custom-box {
+  margin-inline-start: 0;
+  margin-inline-end: 11px;
+  margin-top: 2px;
+}
+.check-item input[type="checkbox"] { inset-inline-start: 0; }
+.reference-card { padding: clamp(13px, 1.4vw, 17px); }
+.reference-card a { overflow-wrap: anywhere; word-break: break-word; }
+
+/* Presentation canvas: safe top/bottom zones and overflow-aware alignment. */
+body.presentation-mode {
+  --img-reserve: 0px;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100svh;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+body.presentation-mode .container {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100svh;
+  overflow: hidden;
+}
+body.presentation-mode .section-card {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100svh;
+  padding-block: var(--pres-top) var(--pres-bottom);
+  padding-inline: var(--pres-inline);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+  scroll-padding-block: var(--pres-top) var(--pres-bottom);
+  -webkit-overflow-scrolling: touch;
+}
+body.presentation-mode .section-card > h2 {
+  margin: 0;
+  padding-block: 0 clamp(10px, 1.5vh, 16px);
+  border-bottom: 1px solid rgba(112, 196, 189, 0.27);
+  color: var(--teal-soft);
+  font-size: clamp(27px, 3.5vh, 42px);
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+body.presentation-mode .section-card.has-media {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  align-content: safe center;
+  align-items: center;
+  gap: var(--pres-gap-y) var(--pres-gap-x);
+}
+body.presentation-mode .section-card.no-media {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: safe center;
+  gap: clamp(12px, 1.7vh, 20px);
+}
+body.presentation-mode .section-card.no-media > * { flex-shrink: 0; }
+/* Keep the final two slide titles at the safe top; offset only their content. */
+body.presentation-mode .section-card.no-media:is([data-section="8"], [data-section="9"]) {
+  justify-content: flex-start;
+}
+body.presentation-mode .section-card.no-media:is([data-section="8"], [data-section="9"]) > h2 + p {
+  margin-block-start: clamp(12px, 2.2vh, 24px);
+}
+body.presentation-mode .slide-text-col,
+body.presentation-mode .slide-media-col {
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  justify-content: safe center;
+  gap: clamp(9px, 1.35vh, 16px);
+}
+body.presentation-mode .slide-text-col { max-width: 820px; }
+body.presentation-mode p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: clamp(16px, 1.95vh, 21px);
+  line-height: 1.74;
+  text-wrap: pretty;
+}
+body.presentation-mode .slide-text-col > .main-note + p { margin-top: 0; }
+body.presentation-mode .main-note {
+  margin: 0;
+  font-size: clamp(14px, 1.65vh, 18px);
+  line-height: 1.72;
+}
+body.presentation-mode .main-note-title { font-size: clamp(14px, 1.55vh, 16px); }
+body.presentation-mode .info-grid,
+body.presentation-mode .state-grid,
+body.presentation-mode .checklist,
+body.presentation-mode .references { margin-block: 0; }
+body.presentation-mode .info-card p {
+  font-size: clamp(14px, 1.55vh, 17px);
+  line-height: 1.68;
+}
+body.presentation-mode .state-item {
+  font-size: clamp(13px, 1.5vh, 16px);
+  line-height: 1.65;
+  padding: clamp(9px, 1vh, 12px);
+}
+body.presentation-mode .tip-strip { margin: 0; }
+body.presentation-mode .tip-strip p {
+  font-size: clamp(14px, 1.6vh, 18px);
+  line-height: 1.68;
+}
+body.presentation-mode .slide-media-col { align-self: center; }
+body.presentation-mode .carousel-container {
+  width: 100%;
+  max-width: 820px;
+  margin: 0;
+  --carousel-chrome: 58px;
+  border-color: rgba(166, 185, 201, 0.17);
+  background: radial-gradient(circle at center, rgba(112, 196, 189, 0.075), transparent 66%), var(--bg-card-2);
+}
+body.presentation-mode .carousel-container.single-slide { --carousel-chrome: 0px; }
+body.presentation-mode .carousel-slides {
+  min-height: clamp(150px, 26vh, 340px);
+  max-height: min(58dvh, 620px);
+}
+body.presentation-mode .carousel-slide { min-width: 0; padding: clamp(8px, 1.2vw, 14px); }
+body.presentation-mode .carousel-slide img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(56dvh, 620px);
+  object-fit: contain;
+  object-position: center;
+}
+body.presentation-mode .carousel-controls { min-height: 58px; }
+body.presentation-mode .carousel-btn { width: 42px; height: 42px; }
+body.presentation-mode .dot { min-width: 8px; min-height: 8px; }
+body.presentation-mode .carousel-dots { min-height: 30px; }
+body.presentation-mode .check-item {
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: clamp(13px, 1.5vh, 16px);
+}
+body.presentation-mode .reference-card { padding: 11px 14px; }
+body.presentation-mode .reference-card h3 { font-size: clamp(14px, 1.7vh, 17px); }
+body.presentation-mode .reference-card p {
+  font-size: clamp(12px, 1.4vh, 15px) !important;
+  line-height: 1.6 !important;
+}
+body.presentation-mode .pres-controls {
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  max-width: calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  padding: 7px 10px;
+  gap: 8px;
+  border-color: rgba(166, 185, 201, 0.28);
+  background: rgba(15, 21, 29, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.pres-btn-icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-color: rgba(166, 185, 201, 0.27);
+}
+.pres-btn-close { min-height: 42px; }
+.pres-btn-icon:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  transform: none;
+}
+.pres-btn-icon:disabled:hover { background: rgba(255,255,255,0.04); color: var(--ink); border-color: rgba(166,185,201,0.27); }
+.pres-counter { min-width: 64px; font-size: 13px; }
+
+/* Width, height and orientation combinations. */
+@media (max-width: 1100px) {
+  body.presentation-mode { --pres-inline: clamp(24px, 5vw, 58px); --pres-gap-x: clamp(20px, 2.8vw, 32px); }
+}
+@media (max-width: 920px) {
+  body.presentation-mode .section-card.has-media {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    align-content: safe center;
+    gap: clamp(13px, 2vh, 20px);
+  }
+  body.presentation-mode .section-card.has-media > h2 { grid-column: 1; }
+  body.presentation-mode .slide-text-col,
+  body.presentation-mode .slide-media-col {
+    grid-column: 1;
+    width: 100%;
+    max-width: none;
+  }
+  body.presentation-mode .carousel-container { max-width: min(100%, 760px); margin-inline: auto; }
+  body.presentation-mode .carousel-slides { min-height: clamp(145px, 23vh, 260px); max-height: 42dvh; }
+  body.presentation-mode .carousel-slide img { max-height: min(40dvh, 440px); }
+  body.presentation-mode .info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.presentation-mode .state-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  body.presentation-mode .checklist,
+  body.presentation-mode .references { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  :root {
+    --page-gutter: 10px;
+    --pres-inline: 16px;
+    --pres-top: clamp(22px, 3.8vh, 34px);
+    --pres-bottom: calc(94px + env(safe-area-inset-bottom, 0px));
+  }
+  body { font-size: 16px; line-height: 1.75; }
+  .top-bar { gap: 10px; padding: 12px 14px; }
+  .top-bar .main-title { font-size: clamp(21px, 5.6vw, 27px); }
+  .section-card { padding: 22px 16px; border-radius: var(--radius-md); }
+  body.presentation-mode .section-card { padding-inline: var(--pres-inline); }
+  body.presentation-mode .section-card > h2 {
+    font-size: clamp(24px, 6vw, 31px);
+    line-height: 1.48;
+    padding-bottom: 10px;
+  }
+  body.presentation-mode .section-card.has-media { gap: 13px; }
+  body.presentation-mode p { font-size: clamp(15px, 4vw, 17px); line-height: 1.72; }
+  body.presentation-mode .slide-text-col,
+  body.presentation-mode .slide-media-col { gap: 11px; }
+  body.presentation-mode .info-grid,
+  body.presentation-mode .state-grid,
+  body.presentation-mode .checklist,
+  body.presentation-mode .references { grid-template-columns: minmax(0, 1fr); }
+  body.presentation-mode .info-card p,
+  body.presentation-mode .tip-strip p { font-size: clamp(14px, 3.8vw, 16px); }
+  body.presentation-mode .state-item { font-size: 14px; }
+  body.presentation-mode .carousel-container { --carousel-chrome: 54px; }
+  body.presentation-mode .carousel-slides { min-height: 130px; max-height: 32dvh; }
+  body.presentation-mode .carousel-slide { padding: 7px; }
+  body.presentation-mode .carousel-slide img { max-height: min(30dvh, 270px); }
+  body.presentation-mode .carousel-controls { min-height: 54px; padding: 7px 9px; }
+  body.presentation-mode .carousel-btn { width: 40px; height: 40px; }
+  body.presentation-mode .pres-controls {
+    bottom: max(10px, env(safe-area-inset-bottom, 0px));
+    max-width: calc(100vw - 16px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+    gap: 5px;
+    padding: 5px 7px;
+  }
+  body.presentation-mode .pres-btn-icon { width: 40px; height: 40px; flex-basis: 40px; }
+  body.presentation-mode .pres-btn-close { height: 38px; min-height: 38px; padding-inline: 10px; font-size: 12px; }
+  body.presentation-mode .pres-counter { min-width: 49px; font-size: 12px; }
+}
+@media (max-width: 380px) {
+  body.presentation-mode .pres-controls { gap: 4px; padding-inline: 5px; }
+  body.presentation-mode .pres-btn-icon { width: 36px; height: 36px; flex-basis: 36px; }
+  body.presentation-mode .pres-btn-close { padding-inline: 8px; }
+  body.presentation-mode .pres-counter { min-width: 42px; }
+}
+@media (max-height: 720px) and (min-width: 701px) {
+  :root {
+    --pres-top: clamp(24px, 4vh, 34px);
+    --pres-bottom: calc(94px + env(safe-area-inset-bottom, 0px));
+    --pres-gap-y: clamp(10px, 1.5vh, 15px);
+  }
+  body.presentation-mode .section-card > h2 { font-size: clamp(25px, 3.8vh, 33px); }
+  body.presentation-mode p { font-size: clamp(15px, 2.1vh, 18px); line-height: 1.68; }
+  body.presentation-mode .carousel-slides { min-height: 150px; max-height: 48dvh; }
+  body.presentation-mode .carousel-slide img { max-height: min(46dvh, 420px); }
+}
+@media (max-height: 650px) {
+  :root {
+    --pres-top: 22px;
+    --pres-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+  body.presentation-mode .section-card > h2 { font-size: clamp(23px, 3.6vh, 29px); }
+  body.presentation-mode .slide-text-col,
+  body.presentation-mode .slide-media-col { gap: 9px; }
+}
+@media (orientation: landscape) and (max-height: 520px) and (min-width: 701px) {
+  :root { --pres-top: 22px; --pres-bottom: calc(78px + env(safe-area-inset-bottom, 0px)); }
+  body.presentation-mode .section-card.has-media {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 10px 18px;
+  }
+  body.presentation-mode .section-card.has-media > h2 { grid-column: 1 / -1; }
+  body.presentation-mode .carousel-slides { min-height: 110px; max-height: 43dvh; }
+  body.presentation-mode .carousel-slide img { max-height: 40dvh; }
+  body.presentation-mode p { font-size: 14px; line-height: 1.55; }
+}
+
+@media (hover: none) {
+  .section-card:hover, .info-card:hover, .state-item:hover, .check-item:hover,
+  .btn-presentation:hover, .pres-btn-icon:hover, .carousel-btn:hover { transform: none; }
+}
+@media (prefers-contrast: more) {
+  :root { --muted: #c2cbd4; --rule: #657383; --rule-soft: rgba(255,255,255,0.2); }
+  .section-card, .info-card, .state-item, .check-item, .reference-card,
+  .carousel-container { border-color: #657383; }
+}
+@media (forced-colors: active) {
+  .section-card, .info-card, .state-item, .check-item, .reference-card,
+  .carousel-container, .pres-controls { border: 1px solid CanvasText; }
+  button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid Highlight; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}
+
+</style>
+</head>
+<body>
+		<!-- Top Bar (Web View Only) -->
+		<div class="top-bar">
+			<h1 class="main-title">ارگونومی کار با رایانه</h1>
+			<button class="btn-presentation btn-presentation-icon" id="startPresBtn" type="button" aria-label="ورود به حالت ارائه تمام‌صفحه" title="ورود به حالت ارائه تمام‌صفحه">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 3H3v5 M16 3h5v5 M21 16v5h-5 M3 16v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+		</div>
+
+		<div class="container">
+			<!-- بخش ۱ -->
+			<div class="section-card has-media" data-section="1">
+				<h2>۱. چرا ارگونومی مهم است؟</h2>
+				<div class="slide-text-col">
+					<p>
+						وقتی ساعت‌های زیادی با کامپیوتر کار می‌کنیم، بدن برای مدت طولانی درگیر فعالیتی نسبتاً ثابت و تکراری است. اگر میز، صندلی، کیبورد، ماوس یا مانیتور با بدن و نوع کار هماهنگ نباشند، گردن، شانه، کمر یا مچ ناچار می‌شوند حتی برای کارهای ساده در وضعیت نامناسب بمانند.
+					</p>
+					<p>
+						ارگونومی به دنبال یک «حالت کامل» برای نشستن نیست. هدف،
+						<strong>هماهنگ کردن محیط و ابزار با بدن و نوع فعالیت</strong>، کاهش
+						وضعیت‌های نامناسب و فراهم کردن امکان تغییر وضعیت در طول کار است.
+					</p>
+					<p>
+						هیچ چیدمان واحدی برای همه‌ی افراد مناسب نیست؛ اندازه‌ی بدن، نوع
+						فعالیت، تجهیزات و شرایط فردی در تنظیم Workstation نقش دارند.
+					</p>
+					<div class="tip-strip">
+						<span class="tip-mark">KEY IDEA</span>
+						<p>
+							<strong>محیط کار باید به بدن کمک کند،</strong> نه اینکه بدن مجبور
+							باشد دائماً خودش را با محیط تطبیق دهد.
+						</p>
+					</div>
+				</div>
+				<div class="slide-media-col">
+					<div class="carousel-container">
+						<div class="carousel-slides">
+							<div class="carousel-slide active">
+								<img src="pictures/NeutralP.jpg" alt="وضعیت خنثی (Neutral Posture) هنگام کار با کامپیوتر" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- بخش ۲ -->
+			<div class="section-card has-media" data-section="2">
+				<h2>۲. یک وضعیت مناسب چه ویژگی‌هایی دارد؟</h2>
+				<div class="slide-text-col">
+					<p>
+						هنگام کار با رایانه، بهتر است بدن تا حد امکان در یک
+						<strong>وضعیت خنثی (Neutral Posture)</strong> قرار بگیرد؛ یعنی مفاصل
+						در وضعیت راحت و طبیعی باشند و بدن مجبور به خم‌شدن، کشش یا چرخش
+						غیرضروری نباشد.
+					</p>
+					<div class="info-grid">
+						<div class="info-card">
+							<h3>سر و گردن</h3>
+							<p>متعادل و راحت؛ برای دیدن صفحه، سر را دائماً جلو نبرید.</p>
+						</div>
+						<div class="info-card">
+							<h3>شانه‌ها</h3>
+							<p>آزاد و بدون بالا کشیدن یا انقباض مداوم.</p>
+						</div>
+						<div class="info-card">
+							<h3>آرنج و ساعد</h3>
+							<p>نزدیک بدن و بدون کشش اضافی برای رسیدن به ابزارها.</p>
+						</div>
+						<div class="info-card">
+							<h3>پشت و پاها</h3>
+							<p>پشت دارای حمایت مناسب و پاها روی زمین یا زیرپایی.</p>
+						</div>
+					</div>
+					<div class="main-note">
+						<div class="main-note-title">نکته‌ی مهم</div>
+						وضعیت مناسب به معنی ثابت ماندن در یک حالت خاص نیست؛ بدن باید بتواند
+						در طول کار وضعیت خود را تغییر دهد.
+					</div>
+				</div>
+				<div class="slide-media-col">
+					<div class="carousel-container">
+						<div class="carousel-slides">
+							<div class="carousel-slide active">
+								<img src="pictures/BadVGoodP.jpg" alt="مقایسه‌ی وضعیت نامناسب و مناسب نشستن پشت میز" />
+							</div>
+							<div class="carousel-slide">
+								<img src="pictures/OGPAW.jpg" alt="نمای تکمیلی از وضعیت مناسب بدن در Workstation" />
+							</div>
+						</div>
+						<div class="carousel-controls">
+							<button type="button" class="carousel-btn prev-btn" aria-label="تصویر قبلی">
+								❮
+							</button>
+							<div class="carousel-dots"></div>
+							<button type="button" class="carousel-btn next-btn" aria-label="تصویر بعدی">
+								❯
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- بخش ۳ -->
+			<div class="section-card has-media" data-section="3">
+				<h2>۳. ابتدا صندلی و میز را تنظیم کنید</h2>
+				<div class="slide-text-col">
+					<p>
+						پیش از تمرکز روی دست و مچ، خود Workstation را تا حد امکان با بدن
+						هماهنگ کنید.
+					</p>
+					<p>
+						ارتفاع صندلی را طوری تنظیم کنید که پاها حمایت مناسبی داشته باشند و
+						برای رسیدن به سطح کار مجبور نباشید شانه‌ها را بالا یا بدن را بیش از
+						حد جلو ببرید.
+					</p>
+					<p>
+						پشتی صندلی باید از پشت و کمر حمایت کند. اگر میز ثابت است و با تنظیم ارتفاع صندلی پاها به زمین نمی‌رسند، زیرپایی می‌تواند حمایت بهتری برای پاها فراهم کند. زیر میز نیز باید برای پاها و زانوها جا باشد تا با پایه‌ها یا کشوها برخورد نکنند.
+					</p>
+					
+					<div class="tip-strip">
+						<span class="tip-mark">CONTACT STRESS</span>
+						<p>
+							لبه‌ی سخت یا تیز میز نباید برای مدت طولانی روی ساعد یا مچ فشار
+							ایجاد کند.
+						</p>
+					</div>
+				</div>
+				<div class="slide-media-col">
+					<div class="carousel-container">
+						<div class="carousel-slides">
+							<div class="carousel-slide active">
+								<img src="pictures/GoodP.jpg" alt="وضعیت مناسب نشستن؛ تنظیم صندلی و میز" />
+							</div>
+						</div>
+						<div class="carousel-controls">
+							<button type="button" class="carousel-btn prev-btn" aria-label="تصویر قبلی">
+								❮
+							</button>
+							<div class="carousel-dots"></div>
+							<button type="button" class="carousel-btn next-btn" aria-label="تصویر بعدی">
+								❯
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- بخش ۴ -->
+			<div class="section-card has-media" data-section="4">
+				<h2>۴. دست و مچ؛ بخش مهمی از ارگونومی تایپ</h2>
+				<div class="slide-text-col">
+					<p>
+						هنگام کار با کیبورد، مچ، دست و ساعد بهتر است تا حد امکان در یک
+						راستای طبیعی قرار داشته باشند. مچ نباید برای مدت طولانی به بالا،
+						پایین یا طرفین خم شود.
+					</p>
+					<p>
+						اگر برای رسیدن به بعضی کلیدها مجبور می‌شوید مچ را زیاد خم کنید، ممکن
+						است مشکل از محل کیبورد، ارتفاع سطح کار یا موقعیت نشستن باشد.
+					</p>
+					<p>
+						در تایپ، انگشت‌ها حرکت می‌کنند و مچ تا حد امکان آرام می‌ماند. برای
+						فشردن کلیدها نیز نیازی به وارد کردن نیروی بیش از حد نیست.
+					</p>
+					<div class="state-grid">
+						<div class="state-item">
+							<span class="state-title">خم رو به بالا</span><span class="state-en">Extension</span>دست نسبت به
+							ساعد به سمت بالا خم شده است.
+						</div>
+						<div class="state-item">
+							<span class="state-title">خم رو به پایین</span><span class="state-en">Flexion</span>دست نسبت به
+							ساعد به سمت پایین خم شده است.
+						</div>
+						<div class="state-item">
+							<span class="state-title">انحراف جانبی</span><span class="state-en">Radial / Ulnar Deviation</span>دست در امتداد
+							ساعد نیست و به یکی از طرفین منحرف شده است.
+						</div>
+					</div>
+					<div class="tip-strip">
+						<span class="tip-mark">WRIST REST</span>
+						<p>
+							اگر از Wrist Rest استفاده می‌کنید، هدف اصلی آن حمایت هنگام استراحت
+							است؛ هنگام تایپ نباید مچ را دائماً روی آن تحت فشار قرار داد.
+						</p>
+					</div>
+				</div>
+				<div class="slide-media-col">
+					<div class="carousel-container">
+						<div class="carousel-slides">
+							<div class="carousel-slide active">
+								<img src="pictures/HandPose.jpg" alt="وضعیت دست و مچ هنگام کار با کیبورد" />
+							</div>
+						</div>
+						<div class="carousel-controls">
+							<button type="button" class="carousel-btn prev-btn" aria-label="تصویر قبلی">
+								❮
+							</button>
+							<div class="carousel-dots"></div>
+							<button type="button" class="carousel-btn next-btn" aria-label="تصویر بعدی">
+								❯
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- بخش ۵ -->
+			<div class="section-card has-media" data-section="5">
+				<h2>۵. کیبورد و ماوس را درست قرار دهید</h2>
+				<div class="slide-text-col">
+					<p>
+						کیبورد و ماوس باید در محدوده‌ای قرار داشته باشند که دسترسی به
+						آن‌ها راحت باشد و برای استفاده از آن‌ها نیازی به کشیدن بیش از حد
+						بازو یا خم کردن مچ وجود نداشته باشد.
+					</p>
+					<p>
+						اگر کیبورد یا ماوس بیش از حد دور باشند، ممکن است شانه‌ها و بازوها
+						به سمت جلو کشیده شوند. ارتفاع نامناسب نیز می‌تواند روی وضعیت شانه و
+						مچ اثر بگذارد.
+					</p>
+					<p>
+						کیبورد را تقریباً روبه‌روی بدن قرار دهید و ارتفاع و شیب آن را بر اساس وضعیت راحت دست و ساعد تنظیم کنید. ماوس نیز بهتر است نزدیک کیبورد باشد، در محدوده‌ای که برای رسیدن به آن لازم نباشد بازو را دائماً بکشید.
+					</p>
+					
+					<div class="tip-strip">
+						<span class="tip-mark">LAPTOP</span>
+						<p>
+							در استفاده‌ی طولانی مدت از لپ‌تاپ، استفاده از کیبورد و ماوس
+							جداگانه می‌تواند امکان تنظیم مستقل موقعیت صفحه و دست‌ها را فراهم
+							کند.
+						</p>
+					</div>
+				</div>
+				<div class="slide-media-col">
+					<div class="carousel-container">
+						<div class="carousel-slides">
+							<div class="carousel-slide active">
+								<img src="pictures/K&amp;MD.jpg" alt="مقایسه‌ی فاصله‌ی کیبورد و ماوس" />
+							</div>
+						</div>
+						<div class="carousel-controls">
+							<button type="button" class="carousel-btn prev-btn" aria-label="تصویر قبلی">
+								❮
+							</button>
+							<div class="carousel-dots"></div>
+							<button type="button" class="carousel-btn next-btn" aria-label="تصویر بعدی">
+								❯
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- بخش ۶ -->
+			<div class="section-card has-media" data-section="6">
+				<h2>۶. مانیتور و نور محیط</h2>
+				<div class="slide-text-col">
+					<p>
+						مانیتور را تا حد امکان مستقیماً مقابل خود قرار دهید تا برای دیدن
+						صفحه مجبور نباشید سر را دائماً به یک سمت بچرخانید.
+					</p>
+					<p>
+						ارتفاع مانیتور باید طوری باشد که برای دیدن محتوای صفحه، سر و گردن
+						مجبور به خم‌شدن یا عقب رفتن غیرضروری نباشند. یک عدد ثابت برای همه
+						وجود ندارد؛ اندازه‌ی صفحه، شرایط دید و ویژگی‌های فردی در تنظیم
+						مؤثرند.
+					</p>
+          
+					<p>
+						نور زیاد یا بازتاب پنجره و چراغ روی صفحه می‌تواند دیدن محتوا را
+						دشوار کند و باعث شود برای دیدن بهتر، چشم‌ها یا بدن در وضعیت نامناسب
+						قرار بگیرند.
+					</p>
+					<div class="info-grid">
+						<div class="info-card">
+							<h3>فاصله‌ی دید</h3>
+							<p>برای شروع، حدود ۵۰ تا ۱۰۰ سانتی‌متر از چشم تا سطح جلوی صفحه.</p>
+						</div>
+						<div class="info-card">
+							<h3>ارتفاع صفحه</h3>
+							<p>لبه‌ی بالایی هم‌سطح چشم یا کمی پایین‌تر؛ مرکز صفحه حدود ۱۵ تا ۲۰ درجه زیر خط افق دید.</p>
+						</div>
+						<div class="info-card">
+							<h3>جهت مانیتور</h3>
+							<p>تقریباً مقابل بدن و در ارتفاعی که دیدن محتوا راحت باشد.</p>
+						</div>
+						<div class="info-card">
+							<h3>نور محیط</h3>
+							<p>کاهش بازتاب مستقیم و تنظیم روشنایی صفحه متناسب با محیط.</p>
+						</div>
+					</div>
+					<div class="tip-strip">
+						<span class="tip-mark">GUIDE</span>
+						<p>
+							معیارهای فاصله و ارتفاع، نقطه‌ی شروع برای تنظیم هستند؛ آن‌ها را
+							جایگزین مشاهده‌ی وضعیت واقعی بدن و راحتی دید نکنید.
+						</p>
+					</div>
+				</div>
+				<div class="slide-media-col">
+					<div class="carousel-container">
+						<div class="carousel-slides">
+							<div class="carousel-slide active">
+								<img src="pictures/GMH.jpg" alt="ارتفاع مناسب مانیتور" />
+							</div>
+							<div class="carousel-slide">
+								<img src="pictures/LMH.jpg" alt="ارتفاع پایین مانیتور" />
+							</div>
+							<div class="carousel-slide">
+								<img src="pictures/BLSAMP.jpg" alt="نمونه‌ی تکمیلی برای تنظیم مانیتور و نور محیط" />
+							</div>
+						</div>
+						<div class="carousel-controls">
+							<button type="button" class="carousel-btn prev-btn" aria-label="تصویر قبلی">
+								❮
+							</button>
+							<div class="carousel-dots"></div>
+							<button type="button" class="carousel-btn next-btn" aria-label="تصویر بعدی">
+								❯
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- بخش ۷ -->
+			<div class="section-card has-media" data-section="7">
+				<h2>۷. حتی وضعیت مناسب هم نباید ثابت بماند</h2>
+				<div class="slide-text-col">
+					<p>
+						ممکن است در بهترین وضعیت ممکن نشسته باشید، اما اگر ساعت‌ها تقریباً
+						بدون تغییر همان حالت را حفظ کنید، بدن همچنان به حرکت و تغییر وضعیت
+						نیاز دارد.
+					</p>
+					<p>
+						در طول کار، گاهی وضعیت نشستن خود را تغییر دهید، برای مدت کوتاهی از
+						جای خود بلند شوید، کمی راه بروید یا فعالیت خود را عوض کنید.
+					</p>
+					<p>
+						به جای دنبال کردن یک قانون زمانی ثابت، تلاش کنید دوره‌های طولانی کار
+						بدون حرکت و تغییر وضعیت را کاهش دهید.
+					</p>
+					<div class="main-note">
+						<div class="main-note-title">یک الگوی ساده</div>
+						کار ← تغییر وضعیت ← ادامه‌ی کار ← حرکت کوتاه یا تغییر فعالیت ←
+						بازگشت
+					</div>
+					<p class="small-copy">
+						تغییر وضعیت می‌تواند ساده باشد؛ مثلاً کمی ایستادن، راه رفتن، نوشیدن
+						آب یا انجام یک فعالیت کوتاه دور از صفحه‌نمایش.
+					</p>
+				</div>
+				<div class="slide-media-col">
+					<div class="carousel-container">
+						<div class="carousel-slides">
+							<div class="carousel-slide active">
+								<img src="pictures/GPI.jpg" alt="نمونه‌ی تغییر وضعیت نشستن در طول کار" />
+							</div>
+							<div class="carousel-slide">
+								<img src="pictures/PCH.jpg" alt="نمونه‌ی تغییر وضعیت یا فعالیت در طول کار" />
+							</div>
+							<div class="carousel-slide">
+								<img src="pictures/Walking.jpg" alt="راه رفتن کوتاه میان کار" />
+							</div>
+						</div>
+						<div class="carousel-controls">
+							<button type="button" class="carousel-btn prev-btn" aria-label="تصویر قبلی">
+								❮
+							</button>
+							<div class="carousel-dots"></div>
+							<button type="button" class="carousel-btn next-btn" aria-label="تصویر بعدی">
+								❯
+							</button>
+						</div>
+					</div>
+					<div class="main-note">
+						<div class="main-note-title">نکته‌ی اصلی</div>
+						ارگونومی فقط «درست نشستن» نیست؛
+						<strong>حرکت و تغییر وضعیت</strong> نیز بخشی از آن است.
+					</div>
+				</div>
+			</div>
+
+			<!-- بخش ۸ -->
+			<div class="section-card no-media" data-section="8">
+				<h2>۸. محیط کار خود را بررسی کنید</h2>
+				<p>
+					حالا چند لحظه از کار فاصله بگیرید و محیط خود را بررسی کنید. این
+					چک‌لیست برای بازبینی اولیه‌ی Workstation است و جایگزین ارزیابی تخصصی
+					نیست.
+				</p>
+
+				<div class="checklist">
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span>سر و گردنم در وضعیت راحت و متعادل قرار دارند.</span></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span>شانه‌ها آزاد و بدون انقباض دائمی هستند.</span></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span>آرنج‌ها در محدوده‌ی راحتی قرار گرفته‌اند.</span></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span>مچ‌ها تا حد امکان در راستای ساعد هستند.</span></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span
+							>برای رسیدن به کیبورد مجبور به کشیدن دست‌ها نیستم.</span
+						></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span
+							>مانیتور مرا مجبور به خم کردن غیرضروری گردن نمی‌کند.</span
+						></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span>ماوس در محدوده‌ی راحت قرار دارد.</span></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span>پاها حمایت مناسبی دارند.</span></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span>مدت طولانی بدون تغییر وضعیت کار نمی‌کنم.</span></label
+					>
+					<label class="check-item"
+						><input type="checkbox" /><span class="custom-box"></span
+						><span
+							>در صورت نیاز، فعالیت یا وضعیت خود را تغییر می‌دهم.</span
+						></label
+					>
+				</div>
+
+				<div class="main-note">
+					<div class="main-note-title">از کوچک شروع کنید</div>
+					لازم نیست همه‌چیز را یک‌باره تغییر دهید. یکی دو موردی را که بیشترین
+					مشکل را ایجاد می‌کنند پیدا کنید و ابتدا همان‌ها را اصلاح کنید.
+				</div>
+			</div>
+
+			<!-- بخش منابع -->
+			<div class="section-card no-media" data-section="9">
+				<h2>منابع برای مطالعه‌ی بیشتر</h2>
+				<p>
+					برای مطالعه‌ی عمیق‌تر، بهتر است به منابع رسمی ارگونومی مراجعه کنید.
+					این منابع مبنای اصول کلی مطرح‌شده در این فایل هستند.
+				</p>
+				<div class="references">
+					<div class="reference-card">
+						<h3>OSHA — Computer Workstations</h3>
+						<p>
+							راهنمای جامع وضعیت بدن، صندلی، میز، کیبورد، مانیتور، ماوس و
+							ارزیابی Workstation.<br /><a
+								href="https://www.osha.gov/etools/computer-workstations"
+								target="_blank"
+								rel="noopener"
+								>osha.gov/etools/computer-workstations</a
+							>
+						</p>
+					</div>
+					<div class="reference-card">
+						<h3>OSHA — Good Working Positions</h3>
+						<p>
+							توضیح مفهوم Neutral Posture و وضعیت مناسب سر، شانه، آرنج، مچ، پشت
+							و پاها.<br /><a
+								href="https://www.osha.gov/etools/computer-workstations/positions"
+								target="_blank"
+								rel="noopener"
+								>osha.gov/etools/computer-workstations/positions</a
+							>
+						</p>
+					</div>
+					<div class="reference-card">
+						<h3>OSHA — Keyboard</h3>
+						<p>
+							راهنمای جای‌گذاری و ارتفاع کیبورد و ارتباط آن با وضعیت شانه و
+							مچ.<br /><a
+								href="https://www.osha.gov/etools/computer-workstations/components/keyboards"
+								target="_blank"
+								rel="noopener"
+								>osha.gov/etools/computer-workstations/components/keyboards</a
+							>
+						</p>
+					</div>
+					<div class="reference-card">
+						<h3>OSHA — Monitor</h3>
+						<p>
+							راهنمای تنظیم مانیتور، زاویه‌ی دید و کاهش فشار ناشی از وضعیت
+							نامناسب سر و گردن.<br /><a
+								href="https://www.osha.gov/etools/computer-workstations/components/monitors"
+								target="_blank"
+								rel="noopener"
+								>osha.gov/etools/computer-workstations/components/monitors</a
+							>
+						</p>
+					</div>
+					<div class="reference-card">
+						<h3>OSHA — Workstation Environment</h3>
+						<p>
+							اصول مربوط به نور، بازتاب و خیرگی صفحه‌نمایش.<br /><a
+								href="https://www.osha.gov/etools/computer-workstations/workstation-environment"
+								target="_blank"
+								rel="noopener"
+								>osha.gov/etools/computer-workstations/workstation-environment</a
+							>
+						</p>
+					</div>
+					<div class="reference-card">
+						<h3>CCOHS — Office Ergonomics</h3>
+						<p>
+							راهنمای کاربردی درباره‌ی کیبورد، مچ، Wrist Rest و تنظیم
+							Workstation.<br /><a
+								href="https://www.ccohs.ca/oshanswers/ergonomics/office/keyboard.html"
+								target="_blank"
+								rel="noopener"
+								>ccohs.ca/oshanswers/ergonomics/office/keyboard.html</a
+							>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Auto-hiding Minimalist Controls Toolbar -->
+		<div class="pres-controls" id="presControls">
+			<button class="pres-btn-icon" id="prevPresBtn" type="button" title="اسلاید قبلی" aria-label="اسلاید قبلی">❮</button>
+			<span class="pres-counter" id="presCounter" aria-live="polite" aria-atomic="true">۱ / ۹</span>
+			<button class="pres-btn-icon" id="nextPresBtn" type="button" title="اسلاید بعدی" aria-label="اسلاید بعدی">❯</button>
+			<button class="pres-btn-close" id="closePresBtn" type="button" aria-label="خروج از حالت ارائه">خروج</button>
+		</div>
+
+		<!-- JavaScript Logics -->
+		
+<script>
+/* =====================================================================
+   Shared logic — identical in both presentations
+   Keys in presentation mode (RTL-aware):
+     ← / →            image gallery (if the slide has several images), else slide
+     ↓ / PageDown / Space   next slide      ↑ / PageUp   previous slide
+     Esc              exit presentation
+   ===================================================================== */
+(() => {
+	const toFa = (n) => Number(n).toLocaleString("fa-IR");
+	const sections = Array.from(document.querySelectorAll(".section-card"));
+	const startPresBtn = document.getElementById("startPresBtn");
+	const closePresBtn = document.getElementById("closePresBtn");
+	const prevPresBtn = document.getElementById("prevPresBtn");
+	const nextPresBtn = document.getElementById("nextPresBtn");
+	const presCounter = document.getElementById("presCounter");
+	const presControls = document.getElementById("presControls");
+
+	let currentPresIndex = 0;
+	let isPresentationMode = false;
+	let idleTimer = null;
+
+	/* ---------- Image carousels ---------- */
+	document.querySelectorAll(".carousel-container").forEach((carousel) => {
+		const slides = Array.from(carousel.querySelectorAll(".carousel-slide"));
+		if (!slides.length) {
+			carousel.hidden = true;
+			return;
+		}
+		if (slides.length === 1) {
+			carousel.classList.add("single-slide");
+			return;
+		}
+		const prevBtn = carousel.querySelector(".prev-btn");
+		const nextBtn = carousel.querySelector(".next-btn");
+		const dotsBox = carousel.querySelector(".carousel-dots");
+		let current = 0;
+
+		carousel.setAttribute("role", "group");
+		carousel.setAttribute("aria-roledescription", "carousel");
+		carousel.setAttribute("aria-label", "تصاویر این بخش؛ با کلیدهای چپ و راست جابه‌جا شوید");
+		carousel.tabIndex = 0;
+		slides.forEach((s, i) => {
+			s.setAttribute("role", "group");
+			s.setAttribute("aria-roledescription", "slide");
+			s.setAttribute("aria-label", `تصویر ${toFa(i + 1)} از ${toFa(slides.length)}`);
+		});
+
+		const dots = slides.map((_, idx) => {
+			const dot = document.createElement("button");
+			dot.type = "button";
+			dot.className = "dot" + (idx === 0 ? " active" : "");
+			dot.setAttribute("aria-label", `نمایش تصویر ${toFa(idx + 1)}`);
+			dot.setAttribute("aria-pressed", idx === 0 ? "true" : "false");
+			dot.addEventListener("click", () => go(idx));
+			dotsBox.appendChild(dot);
+			return dot;
+		});
+		const counter = document.createElement("span");
+		counter.className = "carousel-counter";
+		counter.setAttribute("aria-live", "polite");
+		dotsBox.appendChild(counter);
+
+		function render() {
+			slides.forEach((s, i) => s.classList.toggle("active", i === current));
+			dots.forEach((d, i) => {
+				d.classList.toggle("active", i === current);
+				d.setAttribute("aria-pressed", i === current ? "true" : "false");
+			});
+			counter.textContent = `${toFa(current + 1)} / ${toFa(slides.length)}`;
+		}
+		function go(index) {
+			current = (index + slides.length) % slides.length; // cyclic
+			render();
+		}
+		render();
+
+		carousel._step = (delta) => go(current + delta);
+		prevBtn.type = nextBtn.type = "button";
+		prevBtn.addEventListener("click", () => go(current - 1));
+		nextBtn.addEventListener("click", () => go(current + 1));
+
+		// Web mode: arrow keys work when the gallery has focus (presentation mode is handled globally)
+		carousel.addEventListener("keydown", (e) => {
+			if (isPresentationMode) return;
+			if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+				e.preventDefault();
+				go(current + (e.key === "ArrowLeft" ? 1 : -1)); // RTL: left = forward
+			}
+		});
+	});
+
+
+	/* ---------- One-line flows: fit font size to the real width (Keyboard file; no-op elsewhere) ---------- */
+	function fitFlows() {
+		document.querySelectorAll(".flow--one-line").forEach((f) => {
+			if (!f.offsetWidth || getComputedStyle(f).flexDirection === "column") return;
+			let fs = 16;
+			f.style.setProperty("--fit-fs", fs + "px");
+			while (f.scrollWidth > f.clientWidth + 0.5 && fs > 9.5) {
+				fs -= 0.25;
+				f.style.setProperty("--fit-fs", fs + "px");
+			}
+		});
+	}
+	let fitRaf = 0;
+	const scheduleFit = () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(fitFlows); };
+	window.addEventListener("resize", scheduleFit);
+	window.addEventListener("load", scheduleFit);
+	if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleFit);
+	scheduleFit();
+
+	/* ---------- Presentation ---------- */
+	function updatePresentationSlide() {
+		sections.forEach((sec, idx) => {
+			sec.classList.remove("pres-active", "pres-prev", "pres-next");
+			if (idx === currentPresIndex) sec.classList.add("pres-active");
+			else if (idx < currentPresIndex) sec.classList.add("pres-prev");
+			else sec.classList.add("pres-next");
+		});
+		sections[currentPresIndex].scrollTop = 0;
+		prevPresBtn.disabled = currentPresIndex === 0;
+		nextPresBtn.disabled = currentPresIndex === sections.length - 1;
+		presCounter.textContent = `${toFa(currentPresIndex + 1)} / ${toFa(sections.length)}`;
+	}
+	function startPresentation() {
+		isPresentationMode = true;
+		document.body.classList.add("presentation-mode");
+		if (document.documentElement.requestFullscreen) {
+			document.documentElement.requestFullscreen().catch(() => {});
+		}
+		currentPresIndex = 0;
+		updatePresentationSlide();
+		resetControlTimer();
+		scheduleFit();
+	}
+	function stopPresentation() {
+		isPresentationMode = false;
+		document.body.classList.remove("presentation-mode");
+		if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+		sections.forEach((sec) => sec.classList.remove("pres-active", "pres-prev", "pres-next"));
+		prevPresBtn.disabled = false;
+		nextPresBtn.disabled = false;
+		clearTimeout(idleTimer);
+		startPresBtn.focus({ preventScroll: true });
+		scheduleFit();
+	}
+	function resetControlTimer() {
+		if (!isPresentationMode) return;
+		presControls.classList.remove("fade-out");
+		clearTimeout(idleTimer);
+		idleTimer = setTimeout(() => presControls.classList.add("fade-out"), 3000);
+	}
+	function goNext() {
+		if (!isPresentationMode || currentPresIndex >= sections.length - 1) return;
+		currentPresIndex++;
+		updatePresentationSlide();
+		resetControlTimer();
+	}
+	function goPrev() {
+		if (!isPresentationMode || currentPresIndex <= 0) return;
+		currentPresIndex--;
+		updatePresentationSlide();
+		resetControlTimer();
+	}
+
+	startPresBtn.addEventListener("click", startPresentation);
+	closePresBtn.addEventListener("click", stopPresentation);
+	nextPresBtn.addEventListener("click", goNext);
+	prevPresBtn.addEventListener("click", goPrev);
+		document.addEventListener("mousemove", resetControlTimer, { passive: true });
+	document.addEventListener("pointerdown", resetControlTimer, { passive: true });
+	document.addEventListener("focusin", resetControlTimer);
+	document.addEventListener("keydown", resetControlTimer);
+
+	function activeCarousel() {
+		const c = sections[currentPresIndex] && sections[currentPresIndex].querySelector(".carousel-container");
+		return c && typeof c._step === "function" ? c : null;
+	}
+	function isTextEntry(t) {
+		if (!(t instanceof Element)) return false;
+		if (t.isContentEditable || t.closest("[contenteditable='true']")) return true;
+		if (t.matches("textarea, select")) return true;
+		return t.matches("input") && !t.matches("[type=checkbox], [type=radio], [type=button], [type=submit], [type=range]");
+	}
+	function isInteractive(t) {
+		return t instanceof Element && !!t.closest("button, a, summary, [role='button'], input[type=checkbox], input[type=radio]");
+	}
+
+	document.addEventListener("keydown", (e) => {
+		if (!isPresentationMode) return;
+		if (e.key === "Escape") {
+			stopPresentation();
+			return;
+		}
+		if (e.ctrlKey || e.metaKey || e.altKey) return;
+		if (isTextEntry(e.target)) return;
+		// Enter / Space keep their native action on focused buttons, links and checkboxes
+		if ((e.key === "Enter" || e.key === " ") && isInteractive(e.target)) return;
+
+		if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+			e.preventDefault();
+			const delta = e.key === "ArrowLeft" ? 1 : -1; // RTL: left = forward
+			const carousel = activeCarousel();
+			if (carousel) carousel._step(delta);
+			else if (delta > 0) goNext();
+			else goPrev();
+		} else if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
+			e.preventDefault();
+			goNext();
+		} else if (e.key === "ArrowUp" || e.key === "PageUp") {
+			e.preventDefault();
+			goPrev();
+		}
+	});
+
+	document.addEventListener("fullscreenchange", () => {
+		if (!document.fullscreenElement && isPresentationMode) stopPresentation();
+	});
+})();
+
+</script>
+</body>
+</html>
