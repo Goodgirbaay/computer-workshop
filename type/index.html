@@ -8,10 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
-/* =====================================================================
-   Shared Design System — identical in both presentations
-   (tokens · base · layout · shared components · presentation shell)
-   ===================================================================== */
 :root {
 	--bg: #10141b;
 	--bg-deep: #0a0e14;
@@ -828,6 +824,163 @@ body.presentation-mode .flow--one-line {
 	body.presentation-mode .key { height: clamp(30px, 4.8vh, 38px); }
 }
 
+
+/* =====================================================================
+   Classroom legibility layer (v1) — board / projector readability
+   Only typography, sizes and colours are changed. Text, structure and
+   behaviour of the slides are untouched.
+   Base unit --u is ~28px on a 1080p screen and scales with the viewport.
+   ===================================================================== */
+:root {
+  /* brighter text, deeper background → contrast 10:1 – 19:1 on every surface */
+  --bg: #0a0d12;
+  --bg-deep: #070a0e;
+  --bg-card: #151c26;
+  --bg-card-2: #1b2531;
+  --bg-glass: rgba(10, 14, 20, 0.94);
+  --ink: #ffffff;
+  --ink-soft: #f1f4f8;
+  --muted: #cbd5df;
+  --gold: #ffd08a;
+  --gold-soft: #ffdfae;
+  --teal: #8ae6dd;
+  --teal-soft: #a9f0e9;
+  --coral: #ff9b8f;
+  --blue: #9cc9f5;
+  --rule: #4a5a6d;
+  --rule-soft: rgba(255, 255, 255, 0.14);
+}
+body { color: var(--ink); font-size: clamp(18px, 0.5vw + 14px, 21px); }
+p { color: var(--ink-soft); }
+h3 { font-size: clamp(18px, 1.2vw, 21px); }
+code { color: var(--teal-soft); border-color: #5b6c80; }
+.section-card, .card, .card-center, .question, .concept-panel, .concept-node,
+.keyboard-panel, .kpi, .mini-stat, .practice-option, .flow-step, .key, .formula { border-color: #4a5a6d; }
+.subtitle { font-size: 19px; }
+.small { font-size: 17px; }
+.question-label { font-size: 15px; }
+.question-text { font-size: 19px; }
+.keyboard-label, .concept-title, .kpi-title, .mini-stat-label, .progress-label, .rule-number { font-size: 15px; }
+.concept-node span:last-child { font-size: 15px; }
+.site-badge { font-size: 15px; }
+.visual-caption { font-size: 15px; }
+.key { font-size: 15px; background: #232c3a; }
+.key.ref { background: rgba(255, 208, 138, 0.22); border-color: rgba(255, 208, 138, 0.75); }
+.key.home { background: rgba(138, 230, 221, 0.2); border-color: rgba(138, 230, 221, 0.75); }
+.flow-step { font-family: var(--font-fa); font-size: 17px; }
+.flow-step.active { background: rgba(138, 230, 221, 0.2); border-color: rgba(138, 230, 221, 0.8); color: var(--teal-soft); }
+.rule-desc { font-size: 17px; }
+.rule-title { font-size: 20px; }
+.question { border-right-color: var(--coral); }
+.mini-stat-value { font-family: var(--font-fa), var(--font-mono); }
+.dot { background: #6b7b8e; }
+
+body.presentation-mode {
+  --pres-scale: 1;
+  --u: calc(clamp(22px, min(2.7vh, 1.52vw), 42px) * var(--pres-scale));
+  background: var(--bg-deep);
+}
+body.presentation-mode .section-card {
+  background:
+    radial-gradient(circle at 86% 8%, rgba(138, 230, 221, 0.04), transparent 25%),
+    #090c11;
+}
+
+/* Titles & running text */
+body.presentation-mode .section-card > h2 {
+  font-size: calc(var(--u) * 1.62);
+  line-height: 1.4;
+  color: var(--teal-soft);
+  border-bottom: 2px solid rgba(138, 230, 221, 0.4);
+  padding-bottom: calc(var(--u) * 0.4);
+}
+body.presentation-mode p,
+body.presentation-mode .slide-text-col p,
+body.presentation-mode .slide-media-col p {
+  font-size: var(--u);
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+body.presentation-mode .slide-text-col p.hero-note { font-size: calc(var(--u) * 1.2); line-height: 1.8; color: var(--ink); }
+body.presentation-mode .slide-text-col p.subtitle { font-size: calc(var(--u) * 0.95); color: var(--muted); }
+body.presentation-mode .slide-media-col p.visual-caption,
+body.presentation-mode p.visual-caption { font-size: calc(var(--u) * 0.72); line-height: 1.6; color: var(--muted); }
+body.presentation-mode p.small { font-size: calc(var(--u) * 0.85); color: var(--muted); }
+body.presentation-mode strong { color: var(--gold-soft); }
+body.presentation-mode h3 { font-size: calc(var(--u) * 1.02); line-height: 1.5; }
+body.presentation-mode .hero-question { font-size: calc(var(--u) * 1.4); line-height: 1.55; }
+
+/* Cards, questions, notes */
+body.presentation-mode .card p { font-size: calc(var(--u) * 0.92); line-height: 1.65; }
+body.presentation-mode .card, body.presentation-mode .card-center { padding: calc(var(--u) * 0.5) calc(var(--u) * 0.65); }
+body.presentation-mode .question { padding: calc(var(--u) * 0.5) calc(var(--u) * 0.7); }
+body.presentation-mode .question-label { font-size: calc(var(--u) * 0.68); }
+body.presentation-mode .question-text { font-size: calc(var(--u) * 0.98); line-height: 1.6; }
+body.presentation-mode .main-note {
+  font-size: calc(var(--u) * 0.9);
+  line-height: 1.7;
+  color: var(--ink);
+  background: linear-gradient(135deg, rgba(138, 230, 221, 0.14), rgba(138, 230, 221, 0.05));
+  border-color: rgba(138, 230, 221, 0.35);
+  padding: calc(var(--u) * 0.5) calc(var(--u) * 0.7);
+}
+body.presentation-mode .main-note-title { font-size: calc(var(--u) * 0.85); color: var(--teal-soft); }
+body.presentation-mode .goal-note { font-size: calc(var(--u) * 0.85); background: rgba(138, 230, 221, 0.12); }
+body.presentation-mode .challenge { padding: calc(var(--u) * 0.6) calc(var(--u) * 0.75); }
+body.presentation-mode .challenge-title { font-size: calc(var(--u) * 0.95); }
+
+/* Concept panels */
+body.presentation-mode .concept-title { font-size: calc(var(--u) * 0.72); }
+body.presentation-mode .concept-node { padding: calc(var(--u) * 0.4) calc(var(--u) * 0.6); }
+body.presentation-mode .concept-node span:first-child { font-size: calc(var(--u) * 0.95); }
+body.presentation-mode .concept-node span:last-child { font-size: calc(var(--u) * 0.72); color: var(--muted); }
+
+/* Keyboard visual */
+body.presentation-mode .keyboard-label { font-size: calc(var(--u) * 0.72); color: var(--muted); }
+body.presentation-mode .key { font-size: calc(var(--u) * 0.74); height: calc(var(--u) * 1.65); }
+
+/* Flow chips (long one-line flows are sized by the existing fit script) */
+body.presentation-mode .flow:not(.flow--one-line) .flow-step { font-size: calc(var(--u) * 0.85); padding: calc(var(--u) * 0.3) calc(var(--u) * 0.5); }
+body.presentation-mode .flow:not(.flow--one-line) .flow-arrow { font-size: calc(var(--u) * 0.95); }
+
+/* Sites, stats, rules, practice */
+body.presentation-mode .site-name { font-size: calc(var(--u) * 0.95); }
+body.presentation-mode .site-role { font-size: calc(var(--u) * 0.85); }
+body.presentation-mode .site-badge { font-size: calc(var(--u) * 0.68); }
+body.presentation-mode .kpi-title { font-size: calc(var(--u) * 0.7); color: var(--muted); }
+body.presentation-mode .kpi-value { font-size: calc(var(--u) * 1.3); }
+body.presentation-mode .mini-stat-label { font-size: calc(var(--u) * 0.7); color: var(--muted); }
+body.presentation-mode .mini-stat-value { font-size: calc(var(--u) * 1.05); }
+body.presentation-mode .progress-label { font-size: calc(var(--u) * 0.7); color: var(--muted); }
+body.presentation-mode .progress-line { grid-template-columns: calc(var(--u) * 4.2) 1fr; }
+body.presentation-mode .bar { height: calc(var(--u) * 0.45); }
+body.presentation-mode .rule-number { font-size: calc(var(--u) * 0.7); }
+body.presentation-mode .rule-title { font-size: calc(var(--u) * 1.05); }
+body.presentation-mode .rule-desc { font-size: calc(var(--u) * 0.85); color: var(--muted); }
+body.presentation-mode .practice-option { font-size: calc(var(--u) * 0.8); }
+body.presentation-mode .practice-option-title { font-size: calc(var(--u) * 0.75); }
+body.presentation-mode .formula { font-size: calc(var(--u) * 0.75); }
+
+/* Presentation controls (bottom bar) */
+body.presentation-mode .pres-controls { background: rgba(8, 11, 16, 0.96); border-color: #5a6b7f; padding: 9px 14px; gap: 12px; }
+body.presentation-mode .pres-btn-icon { width: 52px; height: 52px; flex-basis: 52px; font-size: 20px; border-color: #6a7b8f; color: #fff; }
+body.presentation-mode .pres-counter { font-size: 20px; min-width: 84px; color: var(--gold-soft); }
+body.presentation-mode .pres-btn-close { height: 48px; min-height: 48px; font-size: 18px; padding-inline: 20px; color: #ffb3aa; border-color: rgba(255, 138, 125, 0.55); }
+
+@media (max-width: 920px) {
+  body.presentation-mode { --u: calc(clamp(17px, 2.2vh, 28px) * var(--pres-scale)); }
+}
+@media (max-width: 700px) {
+  body.presentation-mode { --u: calc(17px * var(--pres-scale)); }
+  body.presentation-mode .pres-btn-icon { width: 44px; height: 44px; flex-basis: 44px; }
+  body.presentation-mode .pres-counter { min-width: 64px; font-size: 16px; }
+  body.presentation-mode .pres-btn-close { height: 42px; min-height: 42px; font-size: 15px; padding-inline: 12px; }
+  body.presentation-mode .key { font-size: clamp(9px, 2.4vw, 12px); height: 34px; }
+}
+@media (prefers-contrast: more) {
+  :root { --muted: #e3e9ef; --rule: #8796a8; }
+}
+
 </style>
 </head>
 <body>
@@ -1129,13 +1282,6 @@ body.presentation-mode .flow--one-line {
 
   
 <script>
-/* =====================================================================
-   Shared logic — identical in both presentations
-   Keys in presentation mode (RTL-aware):
-     ← / →            image gallery (if the slide has several images), else slide
-     ↓ / PageDown / Space   next slide      ↑ / PageUp   previous slide
-     Esc              exit presentation
-   ===================================================================== */
 (() => {
 	const toFa = (n) => Number(n).toLocaleString("fa-IR");
 	const sections = Array.from(document.querySelectorAll(".section-card"));
@@ -1226,7 +1372,7 @@ body.presentation-mode .flow--one-line {
 		document.querySelectorAll(".flow--one-line").forEach((f) => {
 			if (!f.offsetWidth || getComputedStyle(f).flexDirection === "column") return;
 
-			let fs = 16;
+			let fs = isPresentationMode ? Math.max(22, Math.min(40, window.innerHeight * 0.03)) : 18;
 			const minFs = 8;
 			const hasOverflow = () => {
 				if (f.scrollWidth > f.clientWidth + 1) return true;
@@ -1348,6 +1494,33 @@ body.presentation-mode .flow--one-line {
 	document.addEventListener("fullscreenchange", () => {
 		if (!document.fullscreenElement && isPresentationMode) stopPresentation();
 	});
+	(function () {
+		const body = document.body;
+		let busy = false, raf = 0;
+		function fitActive() {
+			if (busy || !body.classList.contains("presentation-mode")) return;
+			const card = document.querySelector(".section-card.pres-active");
+			if (!card) return;
+			busy = true;
+			const restore = card.style.transition;
+			card.style.transition = "none";
+			let s = 1;
+			body.style.setProperty("--pres-scale", s);
+			while (card.scrollHeight > card.clientHeight + 1 && s > 0.62) {
+				s = Math.round((s - 0.03) * 100) / 100;
+				body.style.setProperty("--pres-scale", s);
+			}
+			card.style.transition = restore;
+			busy = false;
+		}
+		const schedule = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fitActive); };
+		const mo = new MutationObserver(schedule);
+		document.querySelectorAll(".section-card").forEach((c) => mo.observe(c, { attributes: true, attributeFilter: ["class"] }));
+		mo.observe(body, { attributes: true, attributeFilter: ["class"] });
+		document.querySelectorAll(".carousel-slide img").forEach((im) => im.addEventListener("load", schedule));
+		window.addEventListener("resize", schedule);
+		if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+	})();
 })();
 
 </script>
