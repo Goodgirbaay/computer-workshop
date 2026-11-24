@@ -1102,6 +1102,147 @@ body.presentation-mode .pres-controls {
   *, *::before, *::after { scroll-behavior: auto !important; }
 }
 
+
+/* =====================================================================
+   Classroom legibility layer (v1) — board / projector readability
+   Only typography, sizes and colours are changed. Text, structure and
+   behaviour of the slides are untouched.
+   Base unit --u is ~28px on a 1080p screen and scales with the viewport.
+   ===================================================================== */
+:root {
+  /* brighter text, deeper background → contrast 10:1 – 19:1 on every surface */
+  --bg: #0a0d12;
+  --bg-deep: #070a0e;
+  --bg-card: #151c26;
+  --bg-card-2: #1b2531;
+  --bg-glass: rgba(10, 14, 20, 0.94);
+  --ink: #ffffff;
+  --ink-soft: #f1f4f8;
+  --muted: #cbd5df;
+  --gold: #ffd08a;
+  --gold-soft: #ffdfae;
+  --teal: #8ae6dd;
+  --teal-soft: #a9f0e9;
+  --coral: #ff9b8f;
+  --blue: #9cc9f5;
+  --rule: #4a5a6d;
+  --rule-soft: rgba(255, 255, 255, 0.14);
+}
+body { color: var(--ink); font-size: clamp(18px, 0.5vw + 14px, 21px); }
+p { color: var(--ink-soft); }
+h3 { font-size: clamp(18px, 1.2vw, 21px); }
+code { color: var(--teal-soft); border-color: #5b6c80; }
+.section-card { border-color: #46566a; }
+.info-card, .state-item, .check-item, .reference-card { border-color: #46566a; }
+.info-card p { font-size: 17px; }
+.state-item { font-size: 16px; }
+.state-en { font-size: 14px; color: var(--muted); }
+.tip-strip p { font-size: 17px; }
+.tip-mark { font-size: 15px; }
+.main-note-title { font-size: 16px; }
+.reference-card p { font-size: 16px; color: var(--muted); }
+.check-item { font-size: 17px; }
+.carousel-counter { font-size: 14px; color: var(--muted); }
+.dot { background: #6b7b8e; }
+.custom-box { border-color: #9aa9ba; }
+
+body.presentation-mode {
+  --pres-scale: 1;
+  --u: calc(clamp(22px, min(2.7vh, 1.52vw), 42px) * var(--pres-scale));
+  --pres-top: clamp(26px, 4.4vh, 56px);
+  --pres-inline: clamp(24px, 4.2vw, 84px);
+  --pres-bottom: calc(clamp(92px, 10.5vh, 118px) + env(safe-area-inset-bottom, 0px));
+  background: var(--bg-deep);
+}
+body.presentation-mode .section-card {
+  background:
+    radial-gradient(circle at 86% 8%, rgba(138, 230, 221, 0.04), transparent 25%),
+    #090c11;
+}
+
+
+/* Rows follow their content (no overlap with the title); the fit script handles tall slides */
+body.presentation-mode .section-card.has-media { grid-template-rows: auto max-content; }
+body.presentation-mode .slide-text-col,
+body.presentation-mode .slide-media-col { min-height: min-content; }
+@media (max-width: 920px) {
+  body.presentation-mode .section-card.has-media { grid-template-rows: max-content max-content max-content; }
+}
+
+/* Titles & running text */
+body.presentation-mode .section-card > h2 {
+  font-size: calc(var(--u) * 1.62);
+  line-height: 1.4;
+  color: var(--teal-soft);
+  border-bottom: 2px solid rgba(138, 230, 221, 0.4);
+  padding-bottom: calc(var(--u) * 0.4);
+}
+body.presentation-mode p {
+  font-size: var(--u);
+  line-height: 1.72;
+  color: var(--ink-soft);
+}
+body.presentation-mode strong { color: var(--gold-soft); }
+body.presentation-mode h3 { font-size: calc(var(--u) * 1.02); line-height: 1.5; }
+body.presentation-mode code { font-size: 0.9em; }
+
+/* Cards, notes, tips */
+body.presentation-mode .info-card p { font-size: calc(var(--u) * 0.9); line-height: 1.65; }
+body.presentation-mode .info-card { padding: calc(var(--u) * 0.5) calc(var(--u) * 0.6); }
+body.presentation-mode .main-note {
+  font-size: calc(var(--u) * 0.92);
+  line-height: 1.7;
+  color: var(--ink);
+  padding: calc(var(--u) * 0.55) calc(var(--u) * 0.7);
+  background: linear-gradient(135deg, rgba(138, 230, 221, 0.14), rgba(138, 230, 221, 0.05));
+  border-color: rgba(138, 230, 221, 0.35);
+}
+body.presentation-mode .main-note-title { font-size: calc(var(--u) * 0.85); color: var(--teal-soft); }
+body.presentation-mode .tip-strip { padding: calc(var(--u) * 0.5) calc(var(--u) * 0.6); background: rgba(255, 208, 138, 0.1); border-color: rgba(255, 208, 138, 0.4); }
+body.presentation-mode .tip-strip p { font-size: calc(var(--u) * 0.95); line-height: 1.65; }
+body.presentation-mode .tip-mark { font-size: calc(var(--u) * 0.8); }
+
+/* Joint-state cards */
+body.presentation-mode .state-item { font-size: calc(var(--u) * 0.82); line-height: 1.6; padding: calc(var(--u) * 0.4) calc(var(--u) * 0.5); }
+body.presentation-mode .state-en { font-size: calc(var(--u) * 0.76); }
+body.presentation-mode .state-title { font-size: calc(var(--u) * 0.9); }
+
+/* Checklist */
+body.presentation-mode .check-item { font-size: calc(var(--u) * 0.85); line-height: 1.55; padding: calc(var(--u) * 0.4) calc(var(--u) * 0.55); min-height: 0; }
+body.presentation-mode .custom-box { width: calc(var(--u) * 0.85); height: calc(var(--u) * 0.85); flex: 0 0 calc(var(--u) * 0.85); }
+body.presentation-mode .custom-box::after { font-size: calc(var(--u) * 0.6); }
+
+/* References */
+body.presentation-mode .reference-card { padding: calc(var(--u) * 0.45) calc(var(--u) * 0.6); }
+body.presentation-mode .reference-card h3 { font-size: calc(var(--u) * 0.9); }
+body.presentation-mode .reference-card p { font-size: calc(var(--u) * 0.72) !important; line-height: 1.55 !important; color: var(--muted); }
+
+/* Image carousel chrome */
+body.presentation-mode .carousel-counter { font-size: calc(var(--u) * 0.8); color: var(--muted); }
+body.presentation-mode .carousel-btn { width: calc(var(--u) * 1.5); height: calc(var(--u) * 1.5); font-size: calc(var(--u) * 0.75); }
+body.presentation-mode .dot { width: 11px; height: 11px; min-width: 11px; min-height: 11px; background: #7d8ea1; }
+body.presentation-mode .dot.active { width: 30px; background: var(--teal); }
+
+/* Presentation controls (bottom bar) */
+body.presentation-mode .pres-controls { background: rgba(8, 11, 16, 0.96); border-color: #5a6b7f; padding: 9px 14px; gap: 12px; }
+body.presentation-mode .pres-btn-icon { width: 52px; height: 52px; flex-basis: 52px; font-size: 20px; border-color: #6a7b8f; color: #fff; }
+body.presentation-mode .pres-counter { font-size: 20px; min-width: 84px; color: var(--gold-soft); }
+body.presentation-mode .pres-btn-close { height: 48px; min-height: 48px; font-size: 18px; padding-inline: 20px; color: #ffb3aa; border-color: rgba(255, 138, 125, 0.55); }
+
+/* Short / small screens: let the fit script shrink further if needed */
+@media (max-width: 920px) {
+  body.presentation-mode { --u: calc(clamp(17px, 2.2vh, 28px) * var(--pres-scale)); }
+}
+@media (max-width: 700px) {
+  body.presentation-mode { --u: calc(17px * var(--pres-scale)); }
+  body.presentation-mode .pres-btn-icon { width: 44px; height: 44px; flex-basis: 44px; }
+  body.presentation-mode .pres-counter { min-width: 64px; font-size: 16px; }
+  body.presentation-mode .pres-btn-close { height: 42px; min-height: 42px; font-size: 15px; padding-inline: 12px; }
+}
+@media (prefers-contrast: more) {
+  :root { --muted: #e3e9ef; --rule: #8796a8; }
+}
+
 </style>
 </head>
 <body>
@@ -1864,6 +2005,37 @@ body.presentation-mode .pres-controls {
 	document.addEventListener("fullscreenchange", () => {
 		if (!document.fullscreenElement && isPresentationMode) stopPresentation();
 	});
+
+	/* ---------- Classroom legibility: keep every slide inside the screen ----------
+	   Starts from the large board-friendly size and only shrinks (in small steps)
+	   when a slide would otherwise need scrolling. No content is touched. */
+	(function () {
+		const body = document.body;
+		let busy = false, raf = 0;
+		function fitActive() {
+			if (busy || !body.classList.contains("presentation-mode")) return;
+			const card = document.querySelector(".section-card.pres-active");
+			if (!card) return;
+			busy = true;
+			const restore = card.style.transition;
+			card.style.transition = "none";
+			let s = 1;
+			body.style.setProperty("--pres-scale", s);
+			while (card.scrollHeight > card.clientHeight + 1 && s > 0.62) {
+				s = Math.round((s - 0.03) * 100) / 100;
+				body.style.setProperty("--pres-scale", s);
+			}
+			card.style.transition = restore;
+			busy = false;
+		}
+		const schedule = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fitActive); };
+		const mo = new MutationObserver(schedule);
+		document.querySelectorAll(".section-card").forEach((c) => mo.observe(c, { attributes: true, attributeFilter: ["class"] }));
+		mo.observe(body, { attributes: true, attributeFilter: ["class"] });
+		document.querySelectorAll(".carousel-slide img").forEach((im) => im.addEventListener("load", schedule));
+		window.addEventListener("resize", schedule);
+		if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+	})();
 })();
 
 </script>
